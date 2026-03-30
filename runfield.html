@@ -32,16 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* ── SVG背景 ── */
-  .bg-svg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.07;
-  }
-
   /* ── ヘッダー ── */
   header {
     position: relative;
@@ -125,7 +115,7 @@
   main {
     position: relative;
     z-index: 10;
-    max-width: 860px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 32px 18px 24px;
   }
@@ -221,9 +211,9 @@
     display: inline-block;
     background: var(--accent);
     color: var(--green-dark);
-    font-size: 0.72rem;
+    font-size: 0.92rem;
     font-weight: 700;
-    padding: 2px 10px;
+    padding: 5px 16px;
     border-radius: 20px;
     margin-top: 8px;
     letter-spacing: 0.05em;
@@ -283,7 +273,67 @@
     font-size: 0.75rem;
     text-align: center;
     letter-spacing: 0.04em;
+    cursor: pointer;
+    overflow: hidden;
+    transition: opacity 0.2s;
   }
+
+  .photo-item:hover { opacity: 0.85; }
+
+  /* ── ライトボックス ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.88);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox.open { display: flex; }
+
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 88vh;
+    border-radius: 6px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    background: none;
+    border: none;
+    opacity: 0.8;
+  }
+
+  .lightbox-close:hover { opacity: 1; }
+
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 2.2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    opacity: 0.7;
+    padding: 8px 16px;
+    user-select: none;
+  }
+
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-prev:hover, .lightbox-next:hover { opacity: 1; }
 
   /* ── フッター（お問い合わせ固定） ── */
   footer {
@@ -296,7 +346,7 @@
   }
 
   .footer-inner {
-    max-width: 860px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
@@ -346,7 +396,73 @@
     line-height: 1.6;
   }
 
+  /* ── 会場レイアウト ── */
+  .venue-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .venue-text {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .venue-photo {
+    flex: 0 0 55%;
+    max-width: 55%;
+  }
+
+  .venue-photo img {
+    width: 100%;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .venue-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .venue-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-pale);
+    border: 1.5px solid var(--green-light);
+    color: var(--green-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    position: relative;
+    letter-spacing: 0.03em;
+  }
+
+  .venue-badge::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--green-light);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
   /* ── レスポンシブ ── */
+  @media (max-width: 680px) {
+    .venue-layout {
+      flex-direction: column;
+    }
+    .venue-photo {
+      flex: none;
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
   @media (max-width: 520px) {
     .class-grid { grid-template-columns: 1fr; }
     main { padding: 20px 12px 16px; }
@@ -357,74 +473,12 @@
 </head>
 <body>
 
-<!-- 背景SVGイラスト -->
-<svg class="bg-svg" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- サッカーボール群 -->
-  <g fill="none" stroke="#2d5c3f" stroke-width="1.5">
-    <!-- ボール1 -->
-    <circle cx="120" cy="150" r="38"/>
-    <polygon points="120,112 142,127 133,152 107,152 98,127" fill="#2d5c3f" opacity="0.6"/>
-    <line x1="120" y1="112" x2="120" y2="82"/>
-    <line x1="142" y1="127" x2="165" y2="118"/>
-    <line x1="133" y1="152" x2="148" y2="172"/>
-    <line x1="107" y1="152" x2="92" y2="172"/>
-    <line x1="98" y1="127" x2="75" y2="118"/>
-    <!-- ボール2 -->
-    <circle cx="980" cy="100" r="50"/>
-    <polygon points="980,50 1006,67 997,97 963,97 954,67" fill="#2d5c3f" opacity="0.6"/>
-    <line x1="980" y1="50" x2="980" y2="18"/>
-    <line x1="1006" y1="67" x2="1034" y2="56"/>
-    <line x1="997" y1="97" x2="1015" y2="122"/>
-    <line x1="963" y1="97" x2="945" y2="122"/>
-    <line x1="954" y1="67" x2="926" y2="56"/>
-    <!-- ボール3 -->
-    <circle cx="60" cy="600" r="30"/>
-    <polygon points="60,570 76,581 71,598 49,598 44,581" fill="#2d5c3f" opacity="0.6"/>
-    <!-- ボール4 -->
-    <circle cx="1100" cy="500" r="42"/>
-    <polygon points="1100,458 1124,474 1115,500 1085,500 1076,474" fill="#2d5c3f" opacity="0.6"/>
-  </g>
-  <!-- フィールドライン -->
-  <g stroke="#2d5c3f" stroke-width="1" opacity="0.5">
-    <rect x="300" y="300" width="600" height="380" rx="4"/>
-    <line x1="600" y1="300" x2="600" y2="680"/>
-    <circle cx="600" cy="490" r="60" fill="none"/>
-    <rect x="430" y="300" width="140" height="60"/>
-    <rect x="430" y="620" width="140" height="60"/>
-    <rect x="490" y="300" width="60" height="26"/>
-    <rect x="490" y="654" width="60" height="26"/>
-    <!-- コーナーアーク -->
-    <path d="M300,300 Q316,300 316,316" fill="none"/>
-    <path d="M900,300 Q884,300 884,316" fill="none"/>
-    <path d="M300,680 Q316,680 316,664" fill="none"/>
-    <path d="M900,680 Q884,680 884,664" fill="none"/>
-  </g>
-  <!-- 選手シルエット（走る子） -->
-  <g fill="#2d5c3f" opacity="0.55">
-    <circle cx="200" cy="380" r="12"/>
-    <line x1="200" y1="392" x2="200" y2="428" stroke="#2d5c3f" stroke-width="3"/>
-    <line x1="200" y1="428" x2="185" y2="452" stroke="#2d5c3f" stroke-width="2.5"/>
-    <line x1="200" y1="428" x2="216" y2="450" stroke="#2d5c3f" stroke-width="2.5"/>
-    <line x1="200" y1="405" x2="180" y2="418" stroke="#2d5c3f" stroke-width="2.5"/>
-    <line x1="200" y1="405" x2="222" y2="415" stroke="#2d5c3f" stroke-width="2.5"/>
-  </g>
-  <g fill="#2d5c3f" opacity="0.4">
-    <circle cx="1050" cy="650" r="10"/>
-    <line x1="1050" y1="660" x2="1050" y2="690" stroke="#2d5c3f" stroke-width="2.5"/>
-    <line x1="1050" y1="690" x2="1038" y2="710" stroke="#2d5c3f" stroke-width="2"/>
-    <line x1="1050" y1="690" x2="1063" y2="708" stroke="#2d5c3f" stroke-width="2"/>
-    <line x1="1050" y1="670" x2="1034" y2="680" stroke="#2d5c3f" stroke-width="2"/>
-    <line x1="1050" y1="670" x2="1066" y2="678" stroke="#2d5c3f" stroke-width="2"/>
-  </g>
-</svg>
-
 <!-- ヘッダー -->
 <header>
   <div class="header-sub">ASCC（綾瀬スポーツ・文化クラブ）所属</div>
   <div class="header-title">
     A.S.C <span>ラン フィールド</span> サッカースクール
   </div>
-  <div class="header-org">RUN FIELD SOCCER SCHOOL</div>
 </header>
 
 <!-- タブナビ -->
@@ -522,11 +576,21 @@
     <div class="section">
       <div class="section-header">スクール会場</div>
       <div class="section-body">
-        <div class="venue-name">足立区立 綾瀬小学校 グラウンド</div>
-        <div class="venue-access">🚇 地下鉄千代田線 綾瀬駅東口 徒歩３分</div>
-        <!-- 写真用スペース -->
-        <div class="photo-placeholder">
-          📷　会場写真をここに追加できます
+        <div class="venue-layout">
+          <div class="venue-text">
+            <div class="venue-name">足立区立 綾瀬小学校 グラウンド</div>
+            <div class="venue-access">🚇 地下鉄千代田線 綾瀬駅東口 徒歩３分</div>
+            <div class="venue-badges">
+              <span class="venue-badge">人工芝グラウンド</span>
+              <span class="venue-badge">LED照明完備</span>
+            </div>
+            <p style="margin-top:14px;font-size:0.84rem;line-height:1.8;color:var(--text-sub);">
+              全面人工芝のグラウンドで、天候に左右されにくく一年中快適にプレーできます。LED照明も完備しており、夜間練習も明るく安全な環境で行えます。
+            </p>
+          </div>
+          <div class="venue-photo">
+            <img src="photo/04726_ayase_0089.jpg" alt="スクール会場">
+          </div>
         </div>
       </div>
     </div>
@@ -539,21 +603,24 @@
       <div class="section-header">フォトギャラリー</div>
       <div class="section-body">
         <div class="photo-grid">
-          <div class="photo-item">📷<br>写真を追加</div>
-          <div class="photo-item">📷<br>写真を追加</div>
-          <div class="photo-item">📷<br>写真を追加</div>
-          <div class="photo-item">📷<br>写真を追加</div>
-          <div class="photo-item">📷<br>写真を追加</div>
-          <div class="photo-item">📷<br>写真を追加</div>
+          <div class="photo-item" onclick="openLightbox(0)"><img src="photo/DSC00592.JPG" alt="写真1" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+          <div class="photo-item" onclick="openLightbox(1)"><img src="photo/DSC00593.JPG" alt="写真2" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+          <div class="photo-item" onclick="openLightbox(2)"><img src="photo/DSC00597.JPG" alt="写真3" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+          <div class="photo-item" onclick="openLightbox(3)"><img src="photo/DSC00606.JPG" alt="写真4" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
         </div>
-        <p style="margin-top:18px;font-size:0.78rem;color:var(--text-sub);text-align:center;">
-          ※ &lt;img&gt; タグで写真を差し替えてください
-        </p>
       </div>
     </div>
   </div><!-- /tab-photos -->
 
 </main>
+
+<!-- ライトボックス -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-prev" onclick="event.stopPropagation(); moveLightbox(-1)">&#8249;</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" onclick="event.stopPropagation(); moveLightbox(1)">&#8250;</button>
+</div>
 
 <!-- フッター（お問い合わせ・常時表示） -->
 <footer>
@@ -585,6 +652,40 @@
 </footer>
 
 <script>
+  const galleryPhotos = [
+    'photo/DSC00592.JPG',
+    'photo/DSC00593.JPG',
+    'photo/DSC00597.JPG',
+    'photo/DSC00606.JPG',
+  ];
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = index;
+    document.getElementById('lightbox-img').src = galleryPhotos[currentIndex];
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(event) {
+    if (event && event.target !== document.getElementById('lightbox') && event.target.tagName !== 'BUTTON') return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function moveLightbox(dir) {
+    currentIndex = (currentIndex + dir + galleryPhotos.length) % galleryPhotos.length;
+    document.getElementById('lightbox-img').src = galleryPhotos[currentIndex];
+  }
+
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') moveLightbox(-1);
+    if (e.key === 'ArrowRight') moveLightbox(1);
+  });
+
   function switchTab(tabId, btn) {
     // パネル切替
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
