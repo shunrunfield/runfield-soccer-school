@@ -841,8 +841,8 @@
 
   // 特別イベント（キー: 'YYYY-M-D'、値: イベント名）
   const EVENTS = {
-    '2026-4-4':  '土曜親子ミニサッカー',
-    '2026-4-11': '土曜親子ミニサッカー',
+    '2026-4-4':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-4-11': '東綾瀬小　土曜親子ミニサッカー',
   };
 
   // ========================================
@@ -860,7 +860,7 @@
 
       const title = document.createElement('div');
       title.className = 'cal-title';
-      title.textContent = year + '年 ' + month + '月';
+      title.textContent = month + '月';
       block.appendChild(title);
 
       const grid = document.createElement('div');
@@ -920,11 +920,13 @@
           cell.appendChild(hname);
         }
 
-        // イベントバッジ
-        const badge = document.createElement('div');
-        badge.className = 'cal-event-badge';
-        badge.textContent = event ? event : (isClosed ? '定休' : 'レッスン');
-        cell.appendChild(badge);
+        // イベントバッジ（特別イベントまたはレッスンある日のみ表示）
+        if (event || !isClosed) {
+          const badge = document.createElement('div');
+          badge.className = 'cal-event-badge';
+          badge.textContent = event ? event : 'レッスン';
+          cell.appendChild(badge);
+        }
 
         grid.appendChild(cell);
       }
