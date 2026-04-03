@@ -49,6 +49,23 @@
     text-align: center;
     border-bottom: 3px solid var(--accent);
     box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .header-emblem {
+    flex-shrink: 0;
+    height: 72px;
+    width: auto;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .header-text {
+    flex: none;
   }
 
   .header-sub {
@@ -355,6 +372,26 @@
   .footer-inner {
     max-width: 1280px;
     margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .footer-contact {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .footer-best {
+    flex-shrink: 0;
+    height: 130px;
+    width: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 520px) {
+    .footer-best { display: none; }
   }
 
   .footer-title {
@@ -490,6 +527,8 @@
     .header-title { font-size: 1.15rem; }
     .tab-btn { padding: 11px 14px; font-size: 0.8rem; }
     .cal-block { min-width: 100%; }
+    .header-emblem, .header-best { height: 50px; }
+    header { gap: 12px; padding: 18px 12px 14px; }
   }
 
   /* ── カレンダー ── */
@@ -593,10 +632,13 @@
 
 <!-- ヘッダー -->
 <header>
-  <div class="header-sub">ASCC（綾瀬スポーツ・文化クラブ）所属</div>
-  <div class="header-title">
-    A.S.C <span>ラン フィールド</span> サッカースクール
+  <div class="header-text">
+    <div class="header-sub">ASCC（綾瀬スポーツ・文化クラブ）所属</div>
+    <div class="header-title">
+      A.S.C <span>ラン フィールド</span> サッカースクール
+    </div>
   </div>
+  <img class="header-emblem" src="photo/A.S.C 緑 サイズ明記なし.jpg" alt="A.S.C エンブレム">
 </header>
 
 <!-- タブナビ -->
@@ -767,29 +809,32 @@
 <!-- フッター（お問い合わせ・常時表示） -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-title">お問い合わせ</div>
-    <div class="footer-grid">
-      <div class="footer-item">
-        <span class="footer-label">スクール</span>
-        <span class="footer-value">A.S.C ラン フィールド サッカースクール</span>
+    <div class="footer-contact">
+      <div class="footer-title">お問い合わせ</div>
+      <div class="footer-grid">
+        <div class="footer-item">
+          <span class="footer-label">スクール</span>
+          <span class="footer-value">A.S.C ラン フィールド サッカースクール</span>
+        </div>
+        <div class="footer-item">
+          <span class="footer-label">担当</span>
+          <span class="footer-value">佐藤</span>
+        </div>
+        <div class="footer-item">
+          <span class="footer-label">携帯</span>
+          <span class="footer-value">090-1815-1724</span>
+        </div>
+        <div class="footer-item">
+          <span class="footer-label">メール</span>
+          <span class="footer-value">george-best.no.11@ezweb.ne.jp / yussa_3@yahoo.co.jp</span>
+        </div>
       </div>
-      <div class="footer-item">
-        <span class="footer-label">担当</span>
-        <span class="footer-value">佐藤</span>
-      </div>
-      <div class="footer-item">
-        <span class="footer-label">携帯</span>
-        <span class="footer-value">090-1815-1724</span>
-      </div>
-      <div class="footer-item">
-        <span class="footer-label">メール</span>
-        <span class="footer-value">george-best.no.11@ezweb.ne.jp / yussa_3@yahoo.co.jp</span>
+      <hr class="footer-divider">
+      <div class="footer-collab">
+        協力クラブ：綾瀬スポーツクラブ（A・S・C）※サッカー・フットサルのサークルです　／　所属団体：ASCC（綾瀬スポーツ文化クラブ）
       </div>
     </div>
-    <hr class="footer-divider">
-    <div class="footer-collab">
-      協力クラブ：綾瀬スポーツクラブ（A・S・C）※サッカー・フットサルのサークルです　／　所属団体：ASCC（綾瀬スポーツ文化クラブ）
-    </div>
+    <img class="footer-best" src="photo/bestwall00.jpg" alt="George Best">
   </div>
 </footer>
 
