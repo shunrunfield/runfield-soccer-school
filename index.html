@@ -1029,11 +1029,19 @@
   }
 
   function formatDesc(text) {
-    // ⚽ ★ などのマーカーの前で改行を挿入して読みやすくする
     const escaped = escHtml(text);
-    return escaped
+    // 《》「」『』の中身を一時退避（括弧内では改行しない）
+    const saved = [];
+    const safeText = escaped.replace(/(《[^》]*》|「[^」]*」|『[^』]*』)/g, (match) => {
+      saved.push(match);
+      return '\x00' + (saved.length - 1) + '\x00';
+    });
+    // 括弧の外にある ⚽ ★ などのマーカーの前で改行
+    const withBreaks = safeText
       .replace(/([\u26BD\u2605\u2606\u25B6\u25C6\u25A0\u25CF\u25CB\u266A\u2665\u2666\u2663\u2660])/g, '<br>$1')
       .replace(/^<br>/, '');
+    // 退避した括弧内容を戻す
+    return withBreaks.replace(/\x00(\d+)\x00/g, (_, i) => saved[parseInt(i)]);
   }
 
   function decodeEntities(str) {
