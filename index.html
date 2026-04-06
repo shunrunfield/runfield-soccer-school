@@ -1006,7 +1006,7 @@
             <div class="news-item">
               <div class="news-item-header">
                 <span class="news-item-date">${escHtml(date)}</span>
-                <span class="news-item-title">${escHtml(item.title || '（タイトルなし）')}</span>
+                <span class="news-item-title">${escHtml(decodeEntities(item.title || '（タイトルなし）'))}</span>
               </div>
               <div class="news-item-body">${escHtml(desc)}${linkHtml ? '\n' + linkHtml : ''}</div>
             </div>`;
@@ -1028,9 +1028,9 @@
   }
 
   function decodeEntities(str) {
-    const el = document.createElement('textarea');
+    const el = document.createElement('div');
     el.innerHTML = str;
-    return el.value;
+    return el.textContent || el.innerText || str;
   }
 
   function stripHtml(html) {
