@@ -611,6 +611,74 @@
   .cal-day.sun .cal-day-num { color: #c0392b !important; }
   .cal-day.sat .cal-day-num { color: #2471a3 !important; }
   .cal-day.holiday-day .cal-day-num { color: #c0392b !important; }
+  /* ── お知らせ ── */
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .news-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .news-item-header {
+    background: var(--green-pale);
+    padding: 10px 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .news-item-date {
+    font-size: 0.78rem;
+    color: var(--text-sub);
+    white-space: nowrap;
+  }
+
+  .news-item-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--green-dark);
+    flex: 1;
+  }
+
+  .news-item-body {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    line-height: 1.85;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .news-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--green-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--green-light);
+  }
+
+  .news-link:hover { color: var(--green-dark); }
+
+  .news-empty {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 0.9rem;
+    padding: 40px 0;
+  }
+
+  .news-updated {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin-bottom: 16px;
+  }
+
   /* 凡例 */
   .cal-legend {
     display: flex;
@@ -646,6 +714,7 @@
   <button class="tab-btn active" onclick="switchTab('basic', this)">基本事項</button>
   <button class="tab-btn" onclick="switchTab('schedule', this)">日程</button>
   <button class="tab-btn" onclick="switchTab('photos', this)">写真</button>
+  <button class="tab-btn" onclick="switchTab('news', this)">お知らせ</button>
 </nav>
 
 <!-- メインコンテンツ -->
@@ -796,6 +865,20 @@
     </div>
   </div><!-- /tab-schedule -->
 
+
+  <!-- お知らせタブ -->
+  <div id="tab-news" class="tab-panel">
+    <div class="section">
+      <div class="section-header">お知らせ</div>
+      <div class="section-body">
+        <div id="news-updated" class="news-updated"></div>
+        <div id="news-list" class="news-list">
+          <div class="news-empty">読み込み中...</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-news -->
+
 </main>
 
 <!-- ライトボックス -->
@@ -881,6 +964,75 @@
     // ボタン切替
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    // お知らせタブを初めて開いたときだけ読み込む
+    if (tabId === 'news') loadNews();
+  }
+
+  // ── お知らせ読み込み ──
+  let newsLoaded = false;
+  function loadNews() {
+    if (newsLoaded) return;
+    newsLoaded = true;
+
+    fetch('data/announcements.json')
+      .then(r => r.json())
+      .then(data => {
+        const listEl = document.getElementById('news-list');
+        const updEl = document.getElementById('news-updated');
+
+        if (data.fetched_at) {
+          const d = new Date(data.fetched_at);
+          const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+          const y = jst.getUTCFullYear();
+          const mo = String(jst.getUTCMonth() + 1).padStart(2, '0');
+          const dy = String(jst.getUTCDate()).padStart(2, '0');
+          const h = String(jst.getUTCHours()).padStart(2, '0');
+          const mi = String(jst.getUTCMinutes()).padStart(2, '0');
+          updEl.textContent = `最終更新：${y}/${mo}/${dy} ${h}:${mi} JST`;
+        }
+
+        if (!data.items || data.items.length === 0) {
+          listEl.innerHTML = '<div class="news-empty">現在お知らせはありません。</div>';
+          return;
+        }
+
+        listEl.innerHTML = data.items.map(item => {
+          const date = item.pubDate ? formatPubDate(item.pubDate) : '';
+          const desc = stripHtml(item.description || '');
+          const linkHtml = item.link
+            ? `<a class="news-link" href="${escHtml(item.link)}" target="_blank" rel="noopener">掲示板で見る →</a>`
+            : '';
+          return `
+            <div class="news-item">
+              <div class="news-item-header">
+                <span class="news-item-date">${escHtml(date)}</span>
+                <span class="news-item-title">${escHtml(item.title || '（タイトルなし）')}</span>
+              </div>
+              <div class="news-item-body">${escHtml(desc)}${linkHtml ? '\n' + linkHtml : ''}</div>
+            </div>`;
+        }).join('');
+      })
+      .catch(() => {
+        document.getElementById('news-list').innerHTML =
+          '<div class="news-empty">お知らせの読み込みに失敗しました。</div>';
+      });
+  }
+
+  function formatPubDate(str) {
+    try {
+      const d = new Date(str);
+      if (isNaN(d)) return str;
+      const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+      return `${jst.getUTCFullYear()}/${String(jst.getUTCMonth()+1).padStart(2,'0')}/${String(jst.getUTCDate()).padStart(2,'0')}`;
+    } catch { return str; }
+  }
+
+  function stripHtml(html) {
+    return html.replace(/<[^>]*>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   // ========================================
