@@ -1027,8 +1027,14 @@
     } catch { return str; }
   }
 
+  function decodeEntities(str) {
+    const el = document.createElement('textarea');
+    el.innerHTML = str;
+    return el.value;
+  }
+
   function stripHtml(html) {
-    return html.replace(/<[^>]*>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
+    return decodeEntities(html.replace(/<[^>]*>/g, ''));
   }
 
   function escHtml(str) {
