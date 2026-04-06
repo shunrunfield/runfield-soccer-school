@@ -651,7 +651,6 @@
     font-size: 0.85rem;
     line-height: 1.85;
     color: var(--text-main);
-    white-space: pre-wrap;
     word-break: break-word;
   }
 
@@ -1008,7 +1007,7 @@
                 <span class="news-item-date">${escHtml(date)}</span>
                 <span class="news-item-title">${escHtml(decodeEntities(item.title || '（タイトルなし）'))}</span>
               </div>
-              <div class="news-item-body">${escHtml(desc)}${linkHtml ? '\n' + linkHtml : ''}</div>
+              <div class="news-item-body">${formatDesc(desc)}${linkHtml ? '<br>' + linkHtml : ''}</div>
             </div>`;
         }).join('');
       })
@@ -1025,6 +1024,14 @@
       const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
       return `${jst.getUTCFullYear()}/${String(jst.getUTCMonth()+1).padStart(2,'0')}/${String(jst.getUTCDate()).padStart(2,'0')}`;
     } catch { return str; }
+  }
+
+  function formatDesc(text) {
+    // ⚽ ★ などのマーカーの前で改行を挿入して読みやすくする
+    const escaped = escHtml(text);
+    return escaped
+      .replace(/([\u26BD\u2605\u2606\u25B6\u25C6\u25A0\u25CF\u25CB\u266A\u2665\u2666\u2663\u2660])/g, '<br>$1')
+      .replace(/^<br>/, '');
   }
 
   function decodeEntities(str) {
