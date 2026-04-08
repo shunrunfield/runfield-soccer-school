@@ -1034,9 +1034,11 @@
       saved.push(match);
       return '\x00' + (saved.length - 1) + '\x00';
     });
-    // 括弧の外にある ⚽ ★ などのマーカーの前で改行
+    // 改行文字を<br>に変換し、括弧の外にある ⚽ ★ などのマーカーの前でも改行
     const withBreaks = safeText
+      .replace(/\n+/g, '<br>')
       .replace(/([\u26BD\u2605\u2606\u25B6\u25C6\u25A0\u25CF\u25CB\u266A\u2665\u2666\u2663\u2660])/g, '<br>$1')
+      .replace(/(<br>)+/g, '<br>')
       .replace(/^<br>/, '');
     // 退避した括弧内容を戻す
     return withBreaks.replace(/\x00(\d+)\x00/g, (_, i) => saved[parseInt(i)]);
@@ -1049,7 +1051,13 @@
   }
 
   function stripHtml(html) {
-    return decodeEntities(html.replace(/<[^>]*>/g, ''));
+    return decodeEntities(
+      html
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/p>/gi, '\n')
+        .replace(/<\/li>/gi, '\n')
+        .replace(/<[^>]*>/g, '')
+    );
   }
 
   function escHtml(str) {
