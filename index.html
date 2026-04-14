@@ -187,6 +187,73 @@
     color: var(--text-main);
   }
 
+  /* ── 料金 ── */
+  .fee-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .fee-table th,
+  .fee-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .fee-table th {
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 700;
+    white-space: nowrap;
+    width: 36%;
+  }
+  .fee-table tr:nth-child(even) td {
+    background: #fafcfb;
+  }
+  .fee-amount {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+  .fee-note {
+    font-size: 0.78rem;
+    color: var(--text-sub);
+    margin-top: 3px;
+  }
+  .fee-free {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--green-light);
+  }
+  .fee-caption {
+    font-size: 0.78rem;
+    color: var(--text-sub);
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+  .fee-class-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+    background: var(--green-mid);
+    padding: 7px 14px;
+    border-radius: 4px;
+    margin: 20px 0 10px;
+  }
+  .fee-class-title:first-child {
+    margin-top: 0;
+  }
+  .fee-promotion-note {
+    font-size: 0.83rem;
+    color: var(--text-sub);
+    background: var(--green-pale);
+    border-left: 3px solid var(--green-light);
+    padding: 8px 12px;
+    margin-top: 12px;
+    line-height: 1.7;
+    border-radius: 0 4px 4px 0;
+  }
+
   /* ── クラス ── */
   .class-grid {
     display: grid;
@@ -713,6 +780,7 @@
   <button class="tab-btn active" onclick="switchTab('basic', this)">基本事項</button>
   <button class="tab-btn" onclick="switchTab('schedule', this)">日程</button>
   <button class="tab-btn" onclick="switchTab('photos', this)">写真</button>
+  <button class="tab-btn" onclick="switchTab('fee', this)">料金</button>
   <button class="tab-btn" onclick="switchTab('news', this)">お知らせ</button>
 </nav>
 
@@ -854,7 +922,6 @@
           <div class="photo-item" onclick="openLightbox(8)"><img src="photo/練習６_圧縮.jpg" alt="練習6" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" loading="lazy"></div>
           <div class="photo-item" onclick="openLightbox(9)"><img src="photo/練習７_圧縮.jpg" alt="練習7" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" loading="lazy"></div>
           <div class="photo-item" onclick="openLightbox(10)"><img src="photo/練習８_圧縮.jpg" alt="練習8" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" loading="lazy"></div>
-          <div class="photo-item" onclick="openLightbox(11)"><img src="photo/練習９_圧縮.jpg" alt="練習9" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -871,6 +938,84 @@
     </div>
   </div><!-- /tab-schedule -->
 
+  <!-- 料金タブ -->
+  <div id="tab-fee" class="tab-panel">
+    <div class="section">
+      <div class="section-header">料金</div>
+      <div class="section-body">
+
+        <!-- ジュニアクラス -->
+        <div class="fee-class-title">ジュニアクラス（小学生）</div>
+        <table class="fee-table">
+          <tbody>
+            <tr>
+              <th>入会金</th>
+              <td>
+                <div class="fee-amount">3,000円</div>
+              </td>
+            </tr>
+            <tr>
+              <th>年会費</th>
+              <td>
+                <div class="fee-amount">7,000円</div>
+                <div class="fee-note">別途スポーツ保険加入が必要です。</div>
+                <div class="fee-note">★ 初年度のみ兄弟割引あり（入会時）</div>
+              </td>
+            </tr>
+            <tr>
+              <th>月会費</th>
+              <td>
+                <div class="fee-amount">5,000円 / 月</div>
+              </td>
+            </tr>
+            <tr>
+              <th>ユニフォーム</th>
+              <td>
+                <div class="fee-free">無料（レンタル）</div>
+                <div class="fee-note">試合時は当スクールのユニフォームを無料でレンタルします。</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- カブアスリートクラス -->
+        <div class="fee-class-title">カブアスリートクラス（中学生）</div>
+        <table class="fee-table">
+          <tbody>
+            <tr>
+              <th>入会金</th>
+              <td>
+                <div class="fee-amount">4,000円</div>
+              </td>
+            </tr>
+            <tr>
+              <th>年会費</th>
+              <td>
+                <div class="fee-amount">8,000円</div>
+                <div class="fee-note">別途スポーツ保険加入が必要です。</div>
+                <div class="fee-note">★ 初年度のみ兄弟割引あり（入会時）</div>
+              </td>
+            </tr>
+            <tr>
+              <th>月会費</th>
+              <td>
+                <div class="fee-amount">6,000円 / 月</div>
+              </td>
+            </tr>
+            <tr>
+              <th>ユニフォーム</th>
+              <td>
+                <div class="fee-free">無料（レンタル）</div>
+                <div class="fee-note">試合時は当スクールのユニフォームを無料でレンタルします。</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="fee-promotion-note">ジュニアクラスからそのまま進級される場合は、入会金・年会費は不要です。月会費のみの引き落としで継続となります。</p>
+
+      </div>
+    </div>
+  </div><!-- /tab-fee -->
 
   <!-- お知らせタブ -->
   <div id="tab-news" class="tab-panel">
@@ -1114,6 +1259,7 @@
   const EVENTS = {
     '2026-4-4':  '東綾瀬小　土曜親子ミニサッカー',
     '2026-4-11': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-4-25': '東綾瀬小　土曜親子ミニサッカー',
   };
 
   // ========================================
