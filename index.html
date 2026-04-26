@@ -655,11 +655,11 @@
   /* ── カレンダー ── */
   .cal-months-wrap {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 32px;
   }
   .cal-block {
-    flex: 1 1 300px;
+    width: 100%;
   }
   .cal-title {
     font-family: 'Oswald', 'Noto Sans JP', sans-serif;
@@ -1332,6 +1332,7 @@
     '2026-4-25': '東綾瀬小　土曜親子ミニサッカー',
     '2026-5-2':  '東綾瀬小　土曜親子ミニサッカー',
     '2026-5-9':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-5-30': '東綾瀬小　土曜親子ミニサッカー',
   };
 
   // ========================================
@@ -1342,7 +1343,17 @@
     container.innerHTML = '';
     const DOW = ['日', '月', '火', '水', '木', '金', '土'];
 
-    CAL_MONTHS.filter(function(m) { return m.show; }).forEach(function(m) {
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth() + 1;
+
+    CAL_MONTHS.filter(function(m) {
+      if (!m.show) return false;
+      // 現在の月より過去の月は自動で非表示
+      if (m.year < nowYear) return false;
+      if (m.year === nowYear && m.month < nowMonth) return false;
+      return true;
+    }).forEach(function(m) {
       const year = m.year, month = m.month;
       const block = document.createElement('div');
       block.className = 'cal-block';
