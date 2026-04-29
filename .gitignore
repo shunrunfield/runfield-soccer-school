@@ -2,3 +2,7 @@ node_modules/
 package.json
 package-lock.json
 process_emblem.js
+
+# Windows
+desktop.ini
+Thumbs.db
