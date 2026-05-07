@@ -728,6 +728,10 @@
   .cal-day.special { background: #fff8e1; border-color: #f0c040; }
   .cal-day.special .cal-day-num { color: #7a5000; }
   .cal-day.special .cal-event-badge { background: var(--accent); color: var(--green-dark); }
+  /* 試合 */
+  .cal-day.match { background: #eaf2ff; border-color: #9bbff0; }
+  .cal-day.match .cal-day-num { color: #174a8b; }
+  .cal-day.match .cal-event-badge { background: #2f6fb4; color: white; }
   /* 曜日カラー（優先） */
   .cal-day.sun .cal-day-num { color: #c0392b !important; }
   .cal-day.sat .cal-day-num { color: #2471a3 !important; }
@@ -813,6 +817,58 @@
     width: 12px; height: 12px;
     border-radius: 2px;
     flex-shrink: 0;
+  }
+
+  .match-details {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .match-detail {
+    border: 1px solid #c8d8ef;
+    border-left: 4px solid #2f6fb4;
+    border-radius: 0 6px 6px 0;
+    background: #f5f9ff;
+    padding: 12px 14px;
+  }
+  .match-detail-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #174a8b;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .match-detail-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 12px;
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.65;
+  }
+  .match-detail-list dt {
+    color: var(--text-sub);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .match-detail-list dd {
+    margin: 0;
+    color: var(--text-main);
+  }
+  .match-note {
+    color: #c0392b;
+    font-weight: 700;
+  }
+
+  @media (max-width: 520px) {
+    .match-detail-list {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+    .match-detail-list dt {
+      margin-top: 4px;
+    }
   }
 </style>
 </head>
@@ -1000,6 +1056,47 @@
         <div id="cal-months-container" class="cal-months-wrap"></div>
         <div style="margin-top:16px;background:#fff8e1;border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.9rem;color:var(--green-dark);font-weight:700;line-height:1.6;">
           東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催
+        </div>
+        <div class="match-details">
+          <div class="match-detail">
+            <div class="match-detail-title">5月21日（木）ナイトゲーム 高学年（4年生以上）の試合</div>
+            <dl class="match-detail-list">
+              <dt>試合日時</dt>
+              <dd>5月21日（木）18:00〜20:30</dd>
+              <dt>対象学年</dt>
+              <dd>4年生以上 <span class="match-note">※低学年（1〜3年生）のレッスンはお休みです</span></dd>
+              <dt>会場</dt>
+              <dd>足立区立 綾瀬小学校 校庭（人工芝）</dd>
+              <dt>所在地</dt>
+              <dd>〒120-0005 東京都足立区綾瀬3丁目12-15</dd>
+              <dt>集合時間</dt>
+              <dd>17:30 現地会場 集合</dd>
+              <dt>対戦チーム</dt>
+              <dd>ウィズFC</dd>
+              <dt>試合形態</dt>
+              <dd>8人制（4〜6年生）</dd>
+            </dl>
+          </div>
+
+          <div class="match-detail">
+            <div class="match-detail-title">5月23日（土）低学年・高学年（1〜6年生）の試合</div>
+            <dl class="match-detail-list">
+              <dt>試合日時</dt>
+              <dd>5月23日（土）14:30〜17:00頃</dd>
+              <dt>対象学年</dt>
+              <dd>1〜6年生</dd>
+              <dt>会場</dt>
+              <dd>藤フットサルクラブ</dd>
+              <dt>所在地</dt>
+              <dd>足立区加平3-4-1（ベルクス加平店 屋上）</dd>
+              <dt>集合時間</dt>
+              <dd>14:00 現地ベルクス 店頭駐輪場 集合</dd>
+              <dt>対戦チーム</dt>
+              <dd>レインSC</dd>
+              <dt>試合形態</dt>
+              <dd>6〜7人制フットサル（ミニサッカー）</dd>
+            </dl>
+          </div>
         </div>
         <p style="margin-top:12px;background:#fdecea;border-left:4px solid #c0392b;padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.95rem;color:#c0392b;font-weight:700;line-height:1.6;">⚠ 雨天の場合やグラウンドの状態次第で中止となることがあります</p>
       </div>
@@ -1345,6 +1442,8 @@
     '2026-4-25': '東綾瀬小　土曜親子ミニサッカー',
     '2026-5-2':  '東綾瀬小　土曜親子ミニサッカー',
     '2026-5-9':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-5-21': '試合 *4年生以上',
+    '2026-5-23': '試合',
     '2026-5-30': '東綾瀬小　土曜親子ミニサッカー',
   };
 
@@ -1405,10 +1504,13 @@
         const isWeekend = (dow === 0 || dow === 6);
         const isClosed = isWeekend || !!holiday || !!CLOSED_DATES[key];
         const event = EVENTS[key];
+        const isMatch = event && event.indexOf('試合') !== -1;
 
         const cell = document.createElement('div');
         cell.className = 'cal-day';
-        if (event) {
+        if (isMatch) {
+          cell.classList.add('match');
+        } else if (event) {
           cell.classList.add('special');
         } else if (isClosed) {
           cell.classList.add('closed');
