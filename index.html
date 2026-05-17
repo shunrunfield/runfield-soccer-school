@@ -818,6 +818,55 @@
     border-radius: 2px;
     flex-shrink: 0;
   }
+  .cal-mobile-legend {
+    display: none;
+  }
+  .cal-mobile-legend-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fafcfb;
+    color: var(--text-sub);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .cal-mobile-legend-list span {
+    white-space: nowrap;
+  }
+  .cal-mobile-legend-list strong {
+    color: var(--green-dark);
+    margin-right: 3px;
+  }
+
+  @media (max-width: 520px) and (orientation: portrait) {
+    .cal-grid { gap: 2px; }
+    .cal-day {
+      min-height: 46px;
+      padding: 4px 3px 3px;
+    }
+    .cal-day-num {
+      font-size: 0.78rem;
+    }
+    .cal-holiday-name {
+      font-size: 0.5rem;
+    }
+    .cal-event-badge {
+      align-self: center;
+      min-width: 1.35rem;
+      padding: 2px 5px;
+      text-align: center;
+      font-size: 0.72rem;
+      line-height: 1.15;
+      word-break: keep-all;
+    }
+    .cal-mobile-legend {
+      display: block;
+    }
+  }
 
   .match-details {
     margin-top: 18px;
@@ -1054,6 +1103,13 @@
       <div class="section-header">日程</div>
       <div class="section-body">
         <div id="cal-months-container" class="cal-months-wrap"></div>
+        <div class="cal-mobile-legend" aria-label="スマホ表示の凡例">
+          <div class="cal-mobile-legend-list">
+            <span><strong>東</strong>東綾瀬小 土曜親子ミニサッカー</span>
+            <span><strong>レ</strong>レッスン</span>
+            <span><strong>試</strong>試合</span>
+          </div>
+        </div>
         <div style="margin-top:16px;background:#fff8e1;border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.9rem;color:var(--green-dark);font-weight:700;line-height:1.6;">
           東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催
         </div>
@@ -1228,10 +1284,6 @@
         <div class="footer-item">
           <span class="footer-label">担当</span>
           <span class="footer-value">佐藤</span>
-        </div>
-        <div class="footer-item">
-          <span class="footer-label">携帯</span>
-          <span class="footer-value">090-1815-1724</span>
         </div>
         <div class="footer-item">
           <span class="footer-label">メール</span>
@@ -1449,6 +1501,20 @@
 
   // ========================================
 
+  function isMobilePortraitSchedule() {
+    return window.matchMedia('(max-width: 520px) and (orientation: portrait)').matches;
+  }
+
+  function getCalendarBadgeText(event, isClosed) {
+    if (!isMobilePortraitSchedule()) {
+      return event ? event : 'レッスン';
+    }
+    if (event && event.indexOf('東綾瀬小') !== -1) return '東';
+    if (event && event.indexOf('試合') !== -1) return '試';
+    if (!isClosed) return 'レ';
+    return event || '';
+  }
+
   function renderCalendars() {
     const container = document.getElementById('cal-months-container');
     if (!container) return;
@@ -1539,7 +1605,7 @@
         if (event || !isClosed) {
           const badge = document.createElement('div');
           badge.className = 'cal-event-badge';
-          badge.textContent = event ? event : 'レッスン';
+          badge.textContent = getCalendarBadgeText(event, isClosed);
           cell.appendChild(badge);
         }
 
@@ -1552,6 +1618,12 @@
   }
 
   renderCalendars();
+  const mobilePortraitQuery = window.matchMedia('(max-width: 520px) and (orientation: portrait)');
+  if (mobilePortraitQuery.addEventListener) {
+    mobilePortraitQuery.addEventListener('change', renderCalendars);
+  } else {
+    mobilePortraitQuery.addListener(renderCalendars);
+  }
 
   // タブを動的に追加する関数（将来の拡張用）
   // addTab('tab-id', 'タブ名', '<p>コンテンツ</p>') で呼び出す
