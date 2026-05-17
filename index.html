@@ -805,39 +805,38 @@
 
   /* 凡例 */
   .cal-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 20px;
-    font-size: 0.75rem;
-    color: var(--text-sub);
-  }
-  .cal-legend-item { display: flex; align-items: center; gap: 5px; }
-  .cal-legend-dot {
-    width: 12px; height: 12px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-  .cal-mobile-legend {
     display: none;
-  }
-  .cal-mobile-legend-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 14px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 12px;
     margin-top: 12px;
-    padding: 10px 12px;
+    padding: 12px;
     border: 1px solid var(--border);
     border-radius: 6px;
     background: #fafcfb;
-    color: var(--text-sub);
     font-size: 0.78rem;
-    line-height: 1.6;
+    line-height: 1.5;
+    color: var(--text-sub);
   }
-  .cal-mobile-legend-list span {
-    white-space: nowrap;
+  .cal-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
   }
-  .cal-mobile-legend-list strong {
+  .cal-legend-badge {
+    min-width: 1.55rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .cal-legend-badge.lesson { background: var(--green-mid); color: white; }
+  .cal-legend-badge.special { background: var(--accent); color: var(--green-dark); }
+  .cal-legend-badge.match { background: #2f6fb4; color: white; }
+  .cal-legend-item strong {
     color: var(--green-dark);
     margin-right: 3px;
   }
@@ -863,8 +862,12 @@
       line-height: 1.15;
       word-break: keep-all;
     }
-    .cal-mobile-legend {
-      display: block;
+    .cal-legend {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 10px;
+      font-size: 0.76rem;
     }
   }
 
@@ -1103,10 +1106,17 @@
       <div class="section-header">日程</div>
       <div class="section-body">
         <div id="cal-months-container" class="cal-months-wrap"></div>
-        <div class="cal-mobile-legend" aria-label="スマホ表示の凡例">
-          <div class="cal-mobile-legend-list">
-            <span><strong>東</strong>東綾瀬小 土曜親子ミニサッカー</span>
+        <div class="cal-legend" aria-label="日程カレンダーの凡例">
+          <div class="cal-legend-item">
+            <span class="cal-legend-badge lesson">レ</span>
             <span><strong>レ</strong>レッスン</span>
+          </div>
+          <div class="cal-legend-item">
+            <span class="cal-legend-badge special">東</span>
+            <span><strong>東</strong>東綾瀬小 土曜親子ミニサッカー</span>
+          </div>
+          <div class="cal-legend-item">
+            <span class="cal-legend-badge match">試</span>
             <span><strong>試</strong>試合</span>
           </div>
         </div>
