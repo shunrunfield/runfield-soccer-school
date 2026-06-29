@@ -39,7 +39,6 @@
     "Tu 18:00-20:00",
     "Th 18:00-20:00"
   ],
-  "priceRange": "¥",
   "image": "https://runfield-soccer.com/photo/練習4_圧縮.jpg",
   "sameAs": [],
   "knowsAbout": ["サッカー", "少年サッカー", "ジュニアサッカー", "スポーツ教室"],
@@ -239,73 +238,6 @@
     font-size: 0.88rem;
     line-height: 1.85;
     color: var(--text-main);
-  }
-
-  /* ── 料金 ── */
-  .fee-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-  }
-  .fee-table th,
-  .fee-table td {
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    vertical-align: top;
-    line-height: 1.6;
-  }
-  .fee-table th {
-    background: var(--green-pale);
-    color: var(--green-dark);
-    font-weight: 700;
-    white-space: nowrap;
-    width: 36%;
-  }
-  .fee-table tr:nth-child(even) td {
-    background: #fafcfb;
-  }
-  .fee-amount {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--green-dark);
-  }
-  .fee-note {
-    font-size: 0.78rem;
-    color: var(--text-sub);
-    margin-top: 3px;
-  }
-  .fee-free {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--green-light);
-  }
-  .fee-caption {
-    font-size: 0.78rem;
-    color: var(--text-sub);
-    margin-top: 10px;
-    line-height: 1.7;
-  }
-  .fee-class-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: white;
-    background: var(--green-mid);
-    padding: 7px 14px;
-    border-radius: 4px;
-    margin: 20px 0 10px;
-  }
-  .fee-class-title:first-child {
-    margin-top: 0;
-  }
-  .fee-promotion-note {
-    font-size: 0.83rem;
-    color: var(--text-sub);
-    background: var(--green-pale);
-    border-left: 3px solid var(--green-light);
-    padding: 8px 12px;
-    margin-top: 12px;
-    line-height: 1.7;
-    border-radius: 0 4px 4px 0;
   }
 
   /* ── クラス ── */
@@ -736,6 +668,43 @@
   .cal-day.sun .cal-day-num { color: #c0392b !important; }
   .cal-day.sat .cal-day-num { color: #2471a3 !important; }
   .cal-day.holiday-day .cal-day-num { color: #c0392b !important; }
+
+  .match-notice {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #f4f8ff 0%, #e6f0ff 100%);
+    border: 1px solid #c5d9f7;
+    border-left: 5px solid #2f6fb4;
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: #183f6d;
+    box-shadow: 0 8px 18px rgba(47, 111, 180, 0.08);
+  }
+  .match-notice-label {
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #2f6fb4;
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .match-notice-title {
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1.5;
+  }
+  .match-notice-title strong {
+    font-size: 1.08rem;
+    color: #12325a;
+  }
+  .match-notice-meta {
+    margin-top: 6px;
+    font-size: 0.83rem;
+    color: #45678f;
+    font-weight: 700;
+  }
   /* ── お知らせ ── */
   .news-list {
     display: flex;
@@ -943,7 +912,6 @@
   <button class="tab-btn active" onclick="switchTab('basic', this)">基本事項</button>
   <button class="tab-btn" onclick="switchTab('schedule', this)">日程</button>
   <button class="tab-btn" onclick="switchTab('photos', this)">写真</button>
-  <button class="tab-btn" onclick="switchTab('fee', this)">料金</button>
   <button class="tab-btn" onclick="switchTab('news', this)">お知らせ</button>
 </nav>
 
@@ -1123,89 +1091,15 @@
         <div style="margin-top:16px;background:#fff8e1;border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.9rem;color:var(--green-dark);font-weight:700;line-height:1.6;">
           東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催
         </div>
+        <div class="match-notice">
+          <div class="match-notice-label">MATCH</div>
+          <div class="match-notice-title">7/25(土) <strong>FCクエルボ</strong> 戦</div>
+          <div class="match-notice-meta">詳細は後日お知らせします</div>
+        </div>
         <p style="margin-top:12px;background:#fdecea;border-left:4px solid #c0392b;padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.95rem;color:#c0392b;font-weight:700;line-height:1.6;">⚠ 雨天の場合やグラウンドの状態次第で中止となることがあります</p>
       </div>
     </div>
   </div><!-- /tab-schedule -->
-
-  <!-- 料金タブ -->
-  <div id="tab-fee" class="tab-panel">
-    <div class="section">
-      <div class="section-header">料金</div>
-      <div class="section-body">
-
-        <!-- ジュニアクラス -->
-        <div class="fee-class-title">ジュニアクラス（小学生）</div>
-        <table class="fee-table">
-          <tbody>
-            <tr>
-              <th>入会金</th>
-              <td>
-                <div class="fee-amount">3,000円</div>
-              </td>
-            </tr>
-            <tr>
-              <th>年会費</th>
-              <td>
-                <div class="fee-amount">7,000円</div>
-                <div class="fee-note">別途スポーツ保険加入が必要です。</div>
-                <div class="fee-note">★ 初年度のみ兄弟割引あり（入会時）</div>
-              </td>
-            </tr>
-            <tr>
-              <th>月会費</th>
-              <td>
-                <div class="fee-amount">5,000円 / 月</div>
-              </td>
-            </tr>
-            <tr>
-              <th>ユニフォーム</th>
-              <td>
-                <div class="fee-free">無料（レンタル）</div>
-                <div class="fee-note">試合時は当スクールのユニフォームを無料でレンタルします。</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- カブアスリートクラス -->
-        <div class="fee-class-title">カブアスリートクラス（中学生）</div>
-        <table class="fee-table">
-          <tbody>
-            <tr>
-              <th>入会金</th>
-              <td>
-                <div class="fee-amount">4,000円</div>
-              </td>
-            </tr>
-            <tr>
-              <th>年会費</th>
-              <td>
-                <div class="fee-amount">8,000円</div>
-                <div class="fee-note">別途スポーツ保険加入が必要です。</div>
-                <div class="fee-note">★ 初年度のみ兄弟割引あり（入会時）</div>
-              </td>
-            </tr>
-            <tr>
-              <th>月会費</th>
-              <td>
-                <div class="fee-amount">6,000円 / 月</div>
-              </td>
-            </tr>
-            <tr>
-              <th>ユニフォーム</th>
-              <td>
-                <div class="fee-free">無料（レンタル）</div>
-                <div class="fee-note">試合時は当スクールのユニフォームを無料でレンタルします。</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="fee-promotion-note">ジュニアクラスからそのまま進級される場合は、入会金・年会費は不要です。月会費のみの引き落としで継続となります。</p>
-
-      </div>
-    </div>
-  </div><!-- /tab-fee -->
 
   <!-- お知らせタブ -->
   <div id="tab-news" class="tab-panel">
@@ -1427,51 +1321,30 @@
 
   // 表示する月のリスト
   // show: false → 非表示、true → 表示
-  // 5月の予定が決まったら { year: 2026, month: 5, show: true } に変更
   const CAL_MONTHS = [
-    { year: 2026, month: 4, show: true },
-    { year: 2026, month: 5, show: true },
-    { year: 2026, month: 6, show: true },
+    { year: 2026, month: 7, show: true },
   ];
 
   // 祝日（キー: 'YYYY-M-D'）
   const HOLIDAYS = {
-    '2026-4-29': '昭和の日',
-    '2026-4-30': 'GW',
-    '2026-5-1':  'GW',
-    '2026-5-3':  '憲法記念日',
-    '2026-5-4':  'みどりの日',
-    '2026-5-5':  'こどもの日',
-    '2026-5-6':  '振替休日',
+    '2026-7-20': '海の日',
   };
 
   // 土日・祝日以外の追加定休日（キー: 'YYYY-M-D'）
   const CLOSED_DATES = {
-    '2026-4-1':  true,
-    '2026-4-10': true,
-    '2026-4-15': true,
-    '2026-4-24': true,
-    '2026-5-12': true,
-    '2026-5-13': true,
-    '2026-5-22': true,
-    '2026-5-27': true,
-    '2026-6-5':  true,
-    '2026-6-10': true,
-    '2026-6-19': true,
-    '2026-6-24': true,
+    '2026-7-3':  true,
+    '2026-7-7':  true,
+    '2026-7-8':  true,
+    '2026-7-17': true,
+    '2026-7-22': true,
+    '2026-7-31': true,
   };
 
   // 特別イベント（キー: 'YYYY-M-D'、値: イベント名）
   const EVENTS = {
-    '2026-4-4':  '東綾瀬小　土曜親子ミニサッカー',
-    '2026-4-11': '東綾瀬小　土曜親子ミニサッカー',
-    '2026-4-25': '東綾瀬小　土曜親子ミニサッカー',
-    '2026-5-2':  '東綾瀬小　土曜親子ミニサッカー',
-    '2026-5-9':  '東綾瀬小　土曜親子ミニサッカー',
-    '2026-5-23': '試合',
-    '2026-5-30': '東綾瀬小　土曜親子ミニサッカー',
-    '2026-6-13': '東綾瀬小　土曜親子ミニサッカー',
-    '2026-6-27': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-7-4':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-7-11': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-7-25': '試合',
   };
 
   // ========================================
