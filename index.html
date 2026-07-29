@@ -1322,29 +1322,40 @@
   // 表示する月のリスト
   // show: false → 非表示、true → 表示
   const CAL_MONTHS = [
-    { year: 2026, month: 7, show: true },
+    { year: 2026, month: 8, show: true },
   ];
 
   // 祝日（キー: 'YYYY-M-D'）
   const HOLIDAYS = {
-    '2026-7-20': '海の日',
+    '2026-8-11': '山の日',
   };
 
   // 土日・祝日以外の追加定休日（キー: 'YYYY-M-D'）
   const CLOSED_DATES = {
-    '2026-7-3':  true,
-    '2026-7-7':  true,
-    '2026-7-8':  true,
-    '2026-7-17': true,
-    '2026-7-22': true,
-    '2026-7-31': true,
+    '2026-8-5':  true,
+    '2026-8-10': true,
+    '2026-8-12': true,
+    '2026-8-13': true,
+    '2026-8-14': true,
+    '2026-8-19': true,
+    '2026-8-28': true,
+  };
+
+  // 追加定休日の表示名（キー: 'YYYY-M-D'）
+  const CLOSED_LABELS = {
+    '2026-8-10': '夏休み',
+    '2026-8-11': '夏休み',
+    '2026-8-12': '夏休み',
+    '2026-8-13': '夏休み',
+    '2026-8-14': '夏休み',
   };
 
   // 特別イベント（キー: 'YYYY-M-D'、値: イベント名）
   const EVENTS = {
-    '2026-7-4':  '東綾瀬小　土曜親子ミニサッカー',
-    '2026-7-11': '東綾瀬小　土曜親子ミニサッカー',
-    '2026-7-25': '試合',
+    '2026-8-1':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-8-8':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-8-22': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-8-29': '東綾瀬小　土曜親子ミニサッカー',
   };
 
   // ========================================
@@ -1415,6 +1426,7 @@
         const dow = (firstDow + d - 1) % 7;
         const key = year + '-' + month + '-' + d;
         const holiday = HOLIDAYS[key];
+        const closedLabel = CLOSED_LABELS[key];
         const isWeekend = (dow === 0 || dow === 6);
         const isClosed = isWeekend || !!holiday || !!CLOSED_DATES[key];
         const event = EVENTS[key];
@@ -1447,6 +1459,12 @@
           hname.className = 'cal-holiday-name';
           hname.textContent = holiday;
           cell.appendChild(hname);
+        }
+        if (closedLabel) {
+          const cname = document.createElement('div');
+          cname.className = 'cal-holiday-name';
+          cname.textContent = closedLabel;
+          cell.appendChild(cname);
         }
 
         // イベントバッジ（特別イベントまたはレッスンある日のみ表示）
