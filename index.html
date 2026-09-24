@@ -664,6 +664,10 @@
   .cal-day.match { background: #eaf2ff; border-color: #9bbff0; }
   .cal-day.match .cal-day-num { color: #174a8b; }
   .cal-day.match .cal-event-badge { background: #2f6fb4; color: white; }
+  /* ナイターミニサッカー */
+  .cal-day.night { background: #f1ecfa; border-color: #b9a3e0; }
+  .cal-day.night .cal-day-num { color: #4a2a86; }
+  .cal-day.night .cal-event-badge { background: #6a3fb5; color: white; }
   /* 曜日カラー（優先） */
   .cal-day.sun .cal-day-num { color: #c0392b !important; }
   .cal-day.sat .cal-day-num { color: #2471a3 !important; }
@@ -805,6 +809,7 @@
   .cal-legend-badge.lesson { background: var(--green-mid); color: white; }
   .cal-legend-badge.special { background: var(--accent); color: var(--green-dark); }
   .cal-legend-badge.match { background: #2f6fb4; color: white; }
+  .cal-legend-badge.night { background: #6a3fb5; color: white; }
   .cal-legend-item strong {
     color: var(--green-dark);
     margin-right: 3px;
@@ -1084,6 +1089,10 @@
             <span>東綾瀬小 土曜親子ミニサッカー</span>
           </div>
           <div class="cal-legend-item">
+            <span class="cal-legend-badge night">ナ</span>
+            <span>ナイターミニサッカー</span>
+          </div>
+          <div class="cal-legend-item">
             <span class="cal-legend-badge match">試</span>
             <span>試合</span>
           </div>
@@ -1094,7 +1103,8 @@
           <div class="match-notice-meta">詳細は後日連絡します。</div>
         </div>
         <div style="margin-top:16px;background:#fff8e1;border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.9rem;color:var(--green-dark);font-weight:700;line-height:1.6;">
-          東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催
+          東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催<br>
+          ナイターミニサッカー（会場：綾瀬小学校）：<span style="color:#c0392b;">19:00〜21:00</span> 開催
         </div>
         <p style="margin-top:12px;background:#fdecea;border-left:4px solid #c0392b;padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.95rem;color:#c0392b;font-weight:700;line-height:1.6;">⚠ 雨天の場合やグラウンドの状態次第で中止となることがあります</p>
       </div>
@@ -1325,6 +1335,7 @@
     { year: 2026, month: 7, show: true },
     { year: 2026, month: 8, show: true },
     { year: 2026, month: 9, show: true },
+    { year: 2026, month: 10, show: true },
   ];
 
   // 祝日（キー: 'YYYY-M-D'）
@@ -1334,6 +1345,7 @@
     '2026-9-21': '敬老の日',
     '2026-9-22': '国民の休日',
     '2026-9-23': '秋分の日',
+    '2026-10-12': 'スポーツの日',
   };
 
   // 土日・祝日以外の追加定休日（キー: 'YYYY-M-D'）
@@ -1358,6 +1370,10 @@
     '2026-9-19': true,
     '2026-9-25': true,
     '2026-9-30': true,
+    '2026-10-9':  true,
+    '2026-10-14': true,
+    '2026-10-23': true,
+    '2026-10-28': true,
   };
 
   // 追加定休日の表示名（キー: 'YYYY-M-D'）
@@ -1380,6 +1396,11 @@
     '2026-9-5':  '東綾瀬小　土曜親子ミニサッカー',
     '2026-9-12': '東綾瀬小　土曜親子ミニサッカー',
     '2026-9-26': '試合',
+    '2026-10-3':  '東綾瀬小　土曜親子ミニサッカー',
+    '2026-10-10': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-10-31': '東綾瀬小　土曜親子ミニサッカー',
+    '2026-10-9':  'ナイターミニサッカー',
+    '2026-10-23': 'ナイターミニサッカー',
   };
 
   // ========================================
@@ -1394,6 +1415,7 @@
     }
     if (event && event.indexOf('東綾瀬小') !== -1) return '東';
     if (event && event.indexOf('試合') !== -1) return '試';
+    if (event && event.indexOf('ナイター') !== -1) return 'ナ';
     if (!isClosed) return 'レ';
     return event || '';
   }
@@ -1455,11 +1477,14 @@
         const isClosed = isWeekend || !!holiday || !!CLOSED_DATES[key];
         const event = EVENTS[key];
         const isMatch = event && event.indexOf('試合') !== -1;
+        const isNight = event && event.indexOf('ナイター') !== -1;
 
         const cell = document.createElement('div');
         cell.className = 'cal-day';
         if (isMatch) {
           cell.classList.add('match');
+        } else if (isNight) {
+          cell.classList.add('night');
         } else if (event) {
           cell.classList.add('special');
         } else if (isClosed) {
