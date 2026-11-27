@@ -778,18 +778,22 @@
 
   /* 凡例 */
   .cal-legend {
-    display: none;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 8px 12px;
-    margin-top: 12px;
+    margin-bottom: 16px;
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 6px;
     background: #fafcfb;
-    font-size: 0.78rem;
+    font-size: 0.9rem;
+    font-weight: 700;
     line-height: 1.5;
-    color: var(--text-sub);
+    color: var(--green-dark);
   }
+  .cal-legend-time { color: #c0392b; }
+  .sp-only { display: none; }
+  .cal-legend-item.sp-only { display: none; }
   .cal-legend-item {
     display: flex;
     align-items: center;
@@ -802,9 +806,9 @@
     border-radius: 3px;
     flex-shrink: 0;
     text-align: center;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.3;
   }
   .cal-legend-badge.lesson { background: var(--green-mid); color: white; }
   .cal-legend-badge.special { background: var(--accent); color: var(--green-dark); }
@@ -817,32 +821,47 @@
 
   @media (max-width: 520px) and (orientation: portrait) {
     .cal-grid { gap: 2px; }
+    /* 数字を左・文字を右に並べ、マスの幅に合わせてできるだけ大きく */
     .cal-day {
       min-height: 46px;
       padding: 4px 3px 3px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-content: start;
+      align-items: center;
+      column-gap: 2px;
+      row-gap: 2px;
+      container-type: inline-size;
     }
     .cal-day-num {
-      font-size: 0.78rem;
+      grid-column: 1;
+      grid-row: 1;
+      font-size: clamp(0.95rem, 42cqi, 1.9rem);
+      letter-spacing: -0.03em;
     }
     .cal-holiday-name {
+      grid-column: 1 / -1;
       font-size: 0.5rem;
     }
     .cal-event-badge {
-      align-self: center;
-      min-width: 1.35rem;
-      padding: 2px 5px;
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+      margin-top: 0;
+      padding: 2px;
       text-align: center;
-      font-size: 0.72rem;
+      font-size: clamp(0.72rem, 34cqi, 1.35rem);
       line-height: 1.15;
       word-break: keep-all;
     }
     .cal-legend {
-      display: grid;
-      grid-template-columns: 1fr;
       gap: 6px;
       padding: 10px;
-      font-size: 0.76rem;
+      font-size: 0.8rem;
     }
+    .sp-only { display: inline; }
+    .cal-legend-item.sp-only { display: flex; }
+    .pc-only { display: none; }
   }
 
   .match-details {
@@ -1078,29 +1097,25 @@
     <div class="section">
       <div class="section-header">日程</div>
       <div class="section-body">
-        <div id="cal-months-container" class="cal-months-wrap"></div>
         <div class="cal-legend" aria-label="日程カレンダーの凡例">
-          <div class="cal-legend-item">
+          <div class="cal-legend-item sp-only">
             <span class="cal-legend-badge lesson">レ</span>
             <span>レッスン</span>
           </div>
           <div class="cal-legend-item">
-            <span class="cal-legend-badge special">東</span>
-            <span>東綾瀬小 土曜親子ミニサッカー</span>
+            <span class="cal-legend-badge special"><span class="sp-only">東</span><span class="pc-only">東綾瀬小</span></span>
+            <span>東綾瀬小　土曜親子ミニサッカー：<span style="white-space:nowrap;"><span class="cal-legend-time">9:30〜11:30</span> 開催</span></span>
           </div>
           <div class="cal-legend-item">
-            <span class="cal-legend-badge night">ナ</span>
-            <span>ナイターミニサッカー</span>
+            <span class="cal-legend-badge night"><span class="sp-only">ナ</span><span class="pc-only">ナイター</span></span>
+            <span>ナイターミニサッカー（会場：綾瀬小学校）：<span style="white-space:nowrap;"><span class="cal-legend-time">19:00〜21:00</span> 開催</span></span>
           </div>
-          <div class="cal-legend-item">
+          <div class="cal-legend-item sp-only">
             <span class="cal-legend-badge match">試</span>
             <span>試合</span>
           </div>
         </div>
-        <div style="margin-top:16px;background:#fff8e1;border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.9rem;color:var(--green-dark);font-weight:700;line-height:1.6;">
-          東綾瀬小　土曜親子ミニサッカー：<span style="color:#c0392b;">9:30〜11:30</span> 開催<br>
-          ナイターミニサッカー（会場：綾瀬小学校）：<span style="color:#c0392b;">19:00〜21:00</span> 開催
-        </div>
+        <div id="cal-months-container" class="cal-months-wrap"></div>
         <p style="margin-top:12px;background:#fdecea;border-left:4px solid #c0392b;padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.95rem;color:#c0392b;font-weight:700;line-height:1.6;">⚠ 雨天の場合やグラウンドの状態次第で中止となることがあります</p>
       </div>
     </div>
@@ -1435,6 +1450,8 @@
 
   function getCalendarBadgeText(event, isClosed) {
     if (!isMobilePortraitSchedule()) {
+      if (event && event.indexOf('東綾瀬小') !== -1) return '東綾瀬小';
+      if (event && event.indexOf('ナイター') !== -1) return 'ナイター';
       return event ? event : 'レッスン';
     }
     if (event && event.indexOf('東綾瀬小') !== -1) return '東';
